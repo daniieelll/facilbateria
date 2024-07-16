@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistência</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #225522;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="tel"], input[type="date"] {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="date"]:focus {
+            border-color: #225522;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #225522;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1b441b;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .note {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-resolved {
+            background-color: #d4edda;
+            text-decoration: line-through;
+        }
+        .note-content {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Facil Baterias</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link">Bem-vindo, {{ user.username }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Registrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" id="notesContainer">
+        {% for assistencia in assistencias %}
+        <div class="note {% if assistencia.resolvido %}note-resolved{% endif %}">
+            <div class="note-content">
+                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+            </div>
+            <input type="checkbox" onclick="window.location.href='?toggle_resolvido={{ assistencia.id }}'" {% if assistencia.resolvido %}checked{% endif %}>
+            <div class="note-actions">
+                <button onclick="sharePDF('{{ assistencia.id }}')">Compartilhar PDF</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+
+    <div class="container">
+        <h2>Cadastro de Assistências</h2>
+        <form id="assistenciaForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente" name="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="contato">Contato:</label>
+                <input type="tel" id="contato" name="contato" required>
+            </div>
+            <div class="form-group">
+                <label for="bateria">Bateria:</label>
+                <input type="text" id="bateria" name="bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="numeracao_bateria">Numeração da Bateria:</label>
+                <input type="text" id="numeracao_bateria" name="numeracao_bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="responsavel">Responsável:</label>
+                <input type="text" id="responsavel" name="responsavel">
+            </div>
+            <div class="form-group">
+                <label for="foto">Foto:</label>
+                <input type="file" id="foto" name="foto">
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    <div class="container search-container">
+        <form method="GET">
+            <div class="form-group">
+                <label for="searchCliente">Buscar por Cliente:</label>
+                <input type="text" id="searchCliente" name="query" placeholder="Digite o nome do cliente" value="{{ request.GET.query }}">
+            </div>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <div class="container" id="notesContainer">
+        {% for assistencia in assistencias %}
+        <div class="note {% if assistencia.resolvido %}note-resolved{% endif %}">
+            <div class="note-content">
+                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+            </div>
+            <input type="checkbox" onclick="window.location.href='?toggle_resolvido={{ assistencia.id }}'" {% if assistencia.resolvido %}checked{% endif %}>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        function sharePDF(id) {
+            // Localize a nota correspondente pelo ID (ajuste conforme a estrutura de dados real)
+            const noteElement = document.querySelector(`.note-content[data-id='${id}']`);
+            
+            // Extraia os dados da nota
+            const cliente = noteElement.querySelector("p:nth-child(1)").innerText.split(": ")[1];
+            const contato = noteElement.querySelector("p:nth-child(2)").innerText.split(": ")[1];
+            const bateria = noteElement.querySelector("p:nth-child(3)").innerText.split(": ")[1];
+            const numeracao = noteElement.querySelector("p:nth-child(4)").innerText.split(": ")[1];
+            const responsavel = noteElement.querySelector("p:nth-child(5)").innerText.split(": ")[1];
+            
+            // Gere o PDF usando jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+    
+            doc.text("Assistência Técnica", 10, 10);
+            doc.text(`Cliente: ${cliente}`, 10, 20);
+            doc.text(`Contato: ${contato}`, 10, 30);
+            doc.text(`Bateria: ${bateria}`, 10, 40);
+            doc.text(`Numeração da Bateria: ${numeracao}`, 10, 50);
+            doc.text(`Responsável: ${responsavel}`, 10, 60);
+    
+            // Salve o PDF em um Blob
+            const pdfBlob = doc.output('blob');
+    
+            // Crie uma URL para o Blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+    
+            // Compartilhe via WhatsApp
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent('Veja o PDF da Assistência: ' + pdfUrl)}`;
+            window.open(whatsappUrl, '_blank');
+    
+            // Compartilhe via Email
+            const emailUrl = `mailto:?subject=Assistência Técnica&body=Veja o PDF da Assistência: ${pdfUrl}`;
+            window.open(emailUrl, '_blank');
+        }
+    </script>
+    
+
+</body>
+</html>

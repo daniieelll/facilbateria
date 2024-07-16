@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargas de clientes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        .navbar {
+            background-color: #ffffff; /* fundo branco */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #225522; /* verde escuro */
+        }
+        .navbar-nav {
+            margin: auto;
+        }
+        .nav-link {
+            color: #333333; /* cinza escuro */
+            margin-left: 15px;
+        }
+        .nav-link:hover {
+            color: #225522; /* verde escuro ao passar o mouse */
+        }
+        h2 {
+            text-align: center;
+            color: #225522;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="tel"], input[type="date"], input[type="file"] {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="date"]:focus, input[type="file"]:focus {
+            border-color: #225522;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #225522;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1b441b;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .note {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-basis: 22%; /* Ajuste o valor conforme necessário */
+            margin: 1%;
+        }
+        .note-resolved {
+            background-color: #d4edda;
+            text-decoration: line-through;
+        }
+        .note-content {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .notes-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Facil Baterias</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link">Bem-vindo, {{ user.username }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Registrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Baterias seminovas</h2>
+        <form id="searchForm" method="GET">
+            <div class="form-group">
+                <label for="searchCliente">Buscar por Cliente:</label>
+                <input type="text" id="searchCliente" name="cliente" placeholder="Digite o nome do cliente" value="{{ request.GET.cliente }}">
+            </div>
+            <button type="submit">Buscar</button>
+        </form>
+        <form id="garantiaSeminovaForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="activeTab" name="tab" value="seminova">
+            <div class="form-group">
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente" name="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="contato">Contato:</label>
+                <input type="tel" id="contato" name="contato" required>
+            </div>
+            <div class="form-group">
+                <label for="bateria">Bateria:</label>
+                <input type="text" id="bateria" name="bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="numeracao_bateria">Numeração da Bateria:</label>
+                <input type="text" id="numeracao_bateria" name="numeracao_bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="garantia">Garantia:</label>
+                <input type="text" id="garantia" name="garantia" required>
+            </div>
+            <div class="form-group">
+                <label for="data_venda">Data da Venda:</label>
+                <input type="date" id="data_venda" name="data_venda" required>
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor:</label>
+                <input type="text" id="valor" name="valor" required>
+            </div>
+            <div class="form-group">
+                <label for="responsavel">Responsável:</label>
+                <input type="text" id="responsavel" name="responsavel">
+            </div>
+            <div class="form-group">
+                <label for="foto">Foto:</label>
+                <input type="file" id="foto" name="foto">
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    <div class="container notes-container">
+        {% for carga in seminovas %}
+        <div class="note {% if carga.resolvido %}note-resolved{% endif %}">
+            <div class="note-content">
+                <p><strong>Cliente:</strong> {{ carga.cliente }}</p>
+                <p><strong>Contato:</strong> {{ carga.contato }}</p>
+                <p><strong>Bateria:</strong> {{ carga.bateria }}</p>
+                <p><strong>Numeração da Bateria:</strong> {{ carga.numeracao_bateria }}</p>
+                <p><strong>Garantia:</strong> {{ carga.garantia }}</p>
+                <p><strong>Data da Venda:</strong> {{ carga.data_venda }}</p>
+                <p><strong>Valor:</strong> {{ carga.valor }}</p>
+                <p><strong>Responsável:</strong> {{ carga.responsavel }}</p>
+            </div>
+            <input type="checkbox" onclick="window.location.href='?toggle_resolvido={{ carga.id }}&tab=seminova'" {% if carga.resolvido %}checked{% endif %}>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net

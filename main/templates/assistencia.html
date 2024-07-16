@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facil Baterias - Gestão de Baterias Automotivas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* fundo cinza claro */
+            color: #333333; /* cinza escuro para texto */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background-color: #ffffff; /* branco */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0; /* cinza claro para borda */
+            background-color: #ffffff; /* branco */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #225522; /* verde escuro para título */
+        }
+        .section p {
+            margin-bottom: 0;
+            color: #666666; /* cinza para texto */
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888888; /* cinza mais escuro para texto do rodapé */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Facil Baterias</h1>
+            <p>Gestão de Baterias Automotivas</p>
+        </header>
+
+        <a href="/assistencia" class="section">
+            <h2>Assistência</h2>
+            <p>Aqui você pode gerenciar as assistências técnicas realizadas nas baterias automotivas.</p>
+        </a>
+
+        <a href="/emprestimos" class="section">
+            <h2>Empréstimos</h2>
+            <p>Controle os empréstimos de baterias para clientes ou parceiros.</p>
+        </a>
+
+        <a href="/carga_clientes" class="section">
+            <h2>Carga de Clientes</h2>
+            <p>Registre e gerencie as cargas realizadas nas baterias dos seus clientes.</p>
+        </a>
+
+        <a href="/garantia_seminovas" class="section">
+            <h2>Garantia de Seminovas</h2>
+            <p>Gerencie as garantias oferecidas para baterias seminovas.</p>
+        </a>
+
+        <footer>
+            <p>&copy; 2024 Facil Baterias. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>

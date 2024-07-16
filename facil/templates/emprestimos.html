@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Empréstimos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9; /* fundo cinza claro */
+            color: #333333; /* cinza escuro para texto */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background-color: #ffffff; /* branco */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .navbar {
+            background-color: #ffffff; /* fundo branco */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #225522; /* verde escuro */
+        }
+        .navbar-nav {
+            margin: auto;
+        }
+        .nav-link {
+            color: #333333; /* cinza escuro */
+            margin-left: 15px;
+        }
+        .nav-link:hover {
+            color: #225522; /* verde escuro ao passar o mouse */
+        }
+        h2 {
+            text-align: center;
+            color: #225522; /* verde escuro para título */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="tel"], input[type="date"] {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="date"]:focus {
+            border-color: #225522;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #225522;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1b441b;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .note {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-resolved {
+            background-color: #d4edda;
+            text-decoration: line-through;
+        }
+        .note-content {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">Facil Baterias</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link">Bem-vindo, {{ user.username }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Registrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container search-container">
+        <form method="GET">
+            <div class="form-group">
+                <label for="searchCliente">Buscar por Cliente:</label>
+                <input type="text" id="searchCliente" name="cliente" placeholder="Digite o nome do cliente" value="{{ request.GET.cliente }}">
+            </div>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+    <div class="container">
+        <h2>Cadastro de Empréstimos</h2>
+        <form id="emprestimosForm" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente" name="cliente" required>
+            </div>
+            <div class="form-group">
+                <label for="contato">Contato:</label>
+                <input type="tel" id="contato" name="contato" required>
+            </div>
+            <div class="form-group">
+                <label for="bateria">Bateria:</label>
+                <input type="text" id="bateria" name="bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="numeracao_bateria">Numeração da Bateria:</label>
+                <input type="text" id="numeracao_bateria" name="numeracao_bateria" required>
+            </div>
+            <div class="form-group">
+                <label for="data_emprestimo">Data de Empréstimo:</label>
+                <input type="date" id="data_emprestimo" name="data_emprestimo" required>
+            </div>
+            <div class="form-group">
+                <label for="data_devolucao">Data de Devolução:</label>
+                <input type="date" id="data_devolucao" name="data_devolucao">
+            </div>
+            <div class="form-group">
+                <label for="responsavel">Responsável:</label>
+                <input type="text" id="responsavel" name="responsavel">
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    <div class="container" id="notesContainer">
+        {% for emprestimo in emprestimos %}
+        <div class="note {% if emprestimo.resolvido %}note-resolved{% endif %}">
+            <div class="note-content">
+                <p><strong>Cliente:</strong> {{ emprestimo.cliente }}</p>
+                <p><strong>Contato:</strong> {{ emprestimo.contato }}</p>
+                <p><strong>Bateria:</strong> {{ emprestimo.bateria }}</p>
+                <p><strong>Numeração da Bateria:</strong> {{ emprestimo.numeracao_bateria }}</p>
+                <p><strong>Data de Empréstimo:</strong> {{ emprestimo.data_emprestimo }}</p>
+                <p><strong>Data de Devolução:</strong> {{ emprestimo.data_devolucao }}</p>
+                <p><strong>Responsável:</strong> {{ emprestimo.responsavel }}</p>
+            </div>
+            <input type="checkbox" onclick="window.location.href='?toggle_resolvido={{ emprestimo.id }}'" {% if emprestimo.resolvido %}checked{% endif %}>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
