@@ -5,155 +5,293 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facil Baterias - Gestão de Baterias Automotivas</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9; /* fundo cinza claro */
-            color: #333333; /* cinza escuro para texto */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 80%;
-            max-width: 800px;
-            background-color: #ffffff; /* branco */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            overflow: hidden;
-        }
-        .navbar {
-            background-color: #ffffff; /* fundo branco */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-        }
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #225522; /* verde escuro */
-        }
-        .navbar-nav {
-            margin: auto;
-        }
-        .nav-link {
-            color: #333333; /* cinza escuro */
-            margin-left: 15px;
-        }
-        .nav-link:hover {
-            color: #225522; /* verde escuro ao passar o mouse */
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #e0e0e0; /* cinza claro para borda */
-            background-color: #ffffff; /* branco */
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            text-align: center;
-            width: 100%;
-        }
-        .section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .section h2 {
-            margin-top: 0;
-            color: #225522; /* verde escuro para título */
-        }
-        .section p {
-            margin-bottom: 0;
-            color: #666666; /* cinza para texto */
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #888888; /* cinza mais escuro para texto do rodapé */
-        }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: 0;
+    outline: 0;
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --bg-color: #080808;
+    --second-bg-color: #131313;
+    --text-color: #000;
+    --main-color: #059212
+}
+
+html {
+    font-size: 60%;
+    overflow-x: hidden;
+}
+
+body {
+    background: #fff;
+    color: var(--text-color);
+}
+
+main {
+    min-height: 100vh;
+    padding: 10rem 12% 10rem;
+}
+
+nav {
+    display: block;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 4rem 25% 4rem;
+    background: #fff;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+p {
+    color: #080808;
+}
+
+.logo {
+    font-size: 3rem;
+    color: var(--text-color);
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.logo span {
+    color: #059212;
+}
+
+.navbar a {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-left: 4rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+    border-radius: 3px solid transparent;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+}
+
+#menu-icon {
+    font-size: 3.6rem;
+    color: var(--main-color);
+    display: none;
+}
+
+#menu-icon {
+    display: block;
+    /* Show on mobile */
+    cursor: pointer;
+}
+
+.navbar {
+    position: absolute;
+    top: 100%;
+    left: -100%;
+    width: 100%;
+    background: #fff;
+    padding: 2rem;
+    transition: left 0.3s ease-in-out;
+}
+
+.navbar.active {
+    left: 0;
+}
+
+.navbar a {
+    display: block;
+    margin: 1rem 0;
+}
+
+
+@media (min-width: 768px) {
+    #menu-icon {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        position: static;
+        left: auto;
+        width: auto;
+    }
+
+    .navbar a {
+        display: inline;
+        margin: 0 4rem 0 0;
+    }
+}
+
+/* Seção Hero */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background-image: url('imagem_de_bateria.jpg');
+    background-size: cover;
+    color: white;
+    position: relative;
+    /* Para posicionar o texto */
+}
+
+.hero h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Sombra no texto */
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.hero button {
+    background-color: #1abc9c;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero button:hover {
+    background-color: #16a085;
+}
+
+/* Seção de Recursos (Grid) */
+.features {
+
+    padding: 15% 20%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+
+}
+
+.feature {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+    font-size: 18px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.feature h3 {
+    color: #059212;
+    margin-bottom: 15px;
+    font-size: 25px;
+}
+
+@media (max-width: 767px) {
+    .navbar {
+        display: none;
+    }
+}
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/">Facil Baterias</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <span class="nav-link">Bem-vindo, {{ user.username }}!</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Registrar</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+    <header>
+        <a href="#home" class="logo">
+            <span class="logoS"><i class="fa-solid fa-bolt"></i> Facil Baterias</span></a>
+
+        <i class="fa-solid fa-bars" id="menu-icon"></i>
+
+        <nav class="navbar">
+            {% if user.is_authenticated %}
+
+            <a href="#home" class="active">{{ user.username }}!</a>
+            <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+            
+            {% else %}
+
+            <a href="{% url 'login' %}" class="active">Login</a>
+            <a href="{% url 'register' %}">Registro</a>
+
+            {% endif %}
+        </nav>
+
+ </header>
+ <main>
+
+
+    <section class="features">
+
+       <a href="/assistencia"> 
+         <div class="feature">
+            <h3><i class="fa-solid fa-hammer"></i> Assistência</h3>
+            <p>Gerencie suas assistências técnicas com facilidade.</p>
         </div>
-    </nav>
-
-    <div class="container">
-        <header>
-            <h1>Facil Baterias</h1>
-            <p>Gestão de Baterias Automotivas</p>
-        </header>
-
-        <div class="section">
-            <a href="/assistencia">
-                <h2>Assistência</h2>
-                <p>Aqui você pode gerenciar as assistências técnicas realizadas nas baterias automotivas.</p>
-            </a>
+       </a>
+       
+       <a href="/emprestimos">
+        <div class="feature">
+            <h3><i class="fa-solid fa-sack-dollar"></i> Empréstimos</h3>
+            <p>Controle empréstimos de baterias para clientes e parceiros.</p>
         </div>
-
-        <div class="section">
-            <a href="/emprestimos">
-                <h2>Empréstimos</h2>
-                <p>Controle os empréstimos de baterias para clientes ou parceiros.</p>
-            </a>
+       </a>
+        
+       <a href="/carga_clientes">
+        <div class="feature">
+            <h3><i class="fa-solid fa-users"></i> Carga de Clientes</h3>
+            <p>Registre e gerencie as cargas nas baterias dos seus clientes.</p>
         </div>
-
-        <div class="section">
-            <a href="/carga_clientes">
-                <h2>Carga de Clientes</h2>
-                <p>Registre e gerencie as cargas realizadas nas baterias dos seus clientes.</p>
-            </a>
+       </a>
+       <a href="/garantia_seminovas">
+        <div class="feature">
+            <h3><i class="fa-solid fa-bolt-lightning"></i> Garantia de Seminovas</h3>
+            <p>Gerencie garantias estendidas para baterias seminovas.</p>
         </div>
+       </a>
+        
+    </section>
+</main>
 
-        <div class="section">
-            <a href="/garantia_seminovas">
-                <h2>Garantia de Seminovas</h2>
-                <p>Gerencie as garantias oferecidas para baterias seminovas.</p>
-            </a>
-        </div>
+<footer>
+    <p>&copy; 2024 Fácil Baterias</p>
+</footer>
 
-        <footer>
-            <p>&copy; 2024 Facil Baterias. Todos os direitos reservados.</p>
-        </footer>
-    </div>
 
-    <!-- Bootstrap JS e dependências -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
 </body>
 </html>
