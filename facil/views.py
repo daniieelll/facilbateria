@@ -3,6 +3,21 @@ from django.shortcuts import render, redirect
 from facil.models import Carga_clientes, Assistencia, Emprestimos, Seminova
 from django.http import HttpResponse
 from django.urls import reverse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+
+
+def gerar_pdf(request, assistencia_id):
+    assistencia = Assistencia.objects.get(pk=assistencia_id)  
+    html_string = render_to_string('seu_template.html', {'assistencia': assistencia})
+
+    html = HTML(string=html_string)
+    pdf = html.write_pdf()
+
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=assistencia_{assistencia_id}.pdf'
+    return response
+
 
 def carga_cliente_view(request):
     if request.method == 'POST':
