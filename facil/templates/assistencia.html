@@ -538,12 +538,48 @@ p {
         display: none;
     }
 }
+
+.card {
+    width: 100%; 
+    height: 660px; 
+    border: 1px solid #ccc;
+    overflow: hidden; 
+}
+
+.card-container {
+    height: 100%;
+    overflow-y: auto; 
+}
+
+.card-item {
+    width: 100%;
+    height: 160px; 
+    margin: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.card-content p {
+    flex: 1; 
+    min-width: 120px;
+}
+
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <header>
-        <a href="#home" class="logo">
+        <a href="/" class="logo">
             <span class="logoS"><i class="fa-solid fa-bolt"></i> Facil Baterias</span></a>
 
         <i class="fa-solid fa-bars" id="menu-icon"></i>
@@ -551,7 +587,7 @@ p {
         <nav class="navbar">
             {% if user.is_authenticated %}
 
-            <a href="#home" class="active">{{ user.username }}!</a>
+            <a href="" class="active">{{ user.username }}!</a>
             <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
             
             {% else %}
@@ -618,20 +654,14 @@ p {
                         <input type="submit" value="Salvar">
                     </div>
                 </form>
-
-
             </div>
-
-
         </div>
-
     </div>
     <div class="container2">
         <div class="forms">
-            <div class="form login">
+            <div class="form login" style="margin-top: 245px;">
      
-                <form method="GET" style="
-margin-bottom: 25px;">
+                <form method="GET" style="margin-bottom: 25px;">
                     <div class="form-group">
                         <span class="title">Buscar Cliente:</span>
 
@@ -647,71 +677,51 @@ margin-bottom: 25px;">
                     
                 </form>
          
-            
+        
+                <div class="card">
+                    <div class="card-container">
+                        <div class="card-item">
+                            <div class="card-content">
+                                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+                                <button><a href="{% url 'gerar_pdf' assistencia.id %}"><i class="fa-regular fa-file-pdf"></i></a></button> 
+                            </div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-content">
+                                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+                            </div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-content">
+                                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+                                <button><a href="{% url 'gerar_pdf' assistencia.id %}"><i class="fa-regular fa-file-pdf"></i></a></button>
 
-                <div class="tabela-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cabeçalho 1</th>
-                                <th>Cabeçalho 2</th>
-                                <th>Cabeçalho 2</th>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                            <tr>
-                                <td>Alfreds Futterkiste</td>
-                                <td>Maria Anders</td>
-                                <td>Germany</td>
-                            </tr>
-                    
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
-                    <div class="paginacao">
-                        <button class="btn-anterior">&laquo; Anterior</button>
-                        <span class="pagina-atual">1</span>
-                        <button class="btn-proxima">Próxima &raquo;</button>
-                    </div>
+                            </div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-content">
+                                <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+                                <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+                                <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+                                <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+                                <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+                                <button><a href="{% url 'gerar_pdf' assistencia.id %}"><i class="fa-regular fa-file-pdf"></i></a></button>
+                            </div>
+                        </div>
+                        </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>

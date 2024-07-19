@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assistência Técnica</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: 0;
+    outline: 0;
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
+}
+
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background-color: #fff;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-top: 170px;
+}
+
+
+/* Estilos da Tabela */
+.table-container {
+    overflow-x: auto;
+    /* Permite rolagem horizontal se necessário */
+    margin-top: 20px;
+    /* Espaçamento da tabela */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    /* Cor de fundo do cabeçalho */
+    font-weight: bold;
+}
+
+/* Estilo para linhas zebradas (opcional) */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+.container {
+    position: relative;
+    max-width: 430px;
+    width: 90%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.438);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.container2 {
+    position: relative;
+    max-width: 1050px;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.438);
+    overflow: hidden;
+    margin: 0 20px;
+}
+
+.tabela-container {
+    overflow-x: auto;
+    /* Permite rolagem horizontal se a tabela for larga */
+}
+
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.paginacao button,
+.paginacao span {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 6px;
+}
+
+.paginacao .pagina-atual {
+    background-color: #059212;
+    /* Destaque para a página atual */
+    color: white;
+}
+
+
+.container .forms {
+    display: flex;
+    align-items: center;
+    height: 600px;
+    width: 200%;
+    transition: height 0.2s ease;
+}
+
+.container2 .forms {
+    display: flex;
+    align-items: center;
+    height: 660px;
+    width: 200%;
+    transition: height 0.2s ease;
+}
+
+.container .form,
+.container2 .form {
+    width: 50%;
+    padding: 30px;
+    background-color: #fff;
+    transition: margin-left 0.18s ease;
+}
+
+.container.active .login {
+    margin-left: -50%;
+    opacity: 0;
+    transition: margin-left 0.18s ease, opacity 0.15s ease;
+}
+
+.container .signup,
+.container2 .signup {
+    opacity: 0;
+    transition: opacity 0.09s ease;
+}
+
+.container.active .signup {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.container.active .forms {
+    height: 600px;
+}
+
+.container .form .title,
+.container2 .form .title {
+    position: relative;
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.form .title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #059212;
+    border-radius: 25px;
+}
+
+.form .input-field {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.input-field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid) {
+    border-bottom-color: #059212;
+}
+
+.input-field i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid)~i {
+    color: #059212;
+}
+
+.input-field i.icon {
+    left: 0;
+}
+
+.input-field i.showHidePw {
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.form .checkbox-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.checkbox-text .checkbox-content {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-content input {
+    margin-right: 10px;
+    accent-color: #059212;
+}
+
+.form .text {
+    color: #333;
+    font-size: 14px;
+}
+
+.form a.text {
+    color: #059212;
+    text-decoration: none;
+}
+
+.form a:hover {
+    text-decoration: underline;
+}
+
+.form .button {
+    margin-top: 35px;
+}
+
+.form .button input {
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    background-color: #059212;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button input:hover {
+    background-color: #1A5319;
+}
+
+.form .login-signup {
+    margin-top: 30px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .container .form {
+      padding: 15px; 
+    }
+  
+    .form .input-field {
+      height: 45px; 
+    }
+  }
+
+:root {
+    --bg-color: #080808;
+    --second-bg-color: #131313;
+    --text-color: #000;
+    --main-color: #059212
+}
+
+html {
+    font-size: 60%;
+    overflow-x: hidden;
+}
+
+body {
+    background: #fff;
+    color: var(--text-color);
+}
+
+main {
+    min-height: 100vh;
+    padding: 10rem 12% 10rem;
+}
+
+nav {
+    display: block;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 4rem 25% 4rem;
+    background: #fff;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+p {
+    color: #080808;
+}
+
+.logo {
+    font-size: 3rem;
+    color: var(--text-color);
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.logo span {
+    color: #059212;
+}
+
+.navbar a {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-left: 4rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+    border-radius: 3px solid transparent;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+}
+
+#menu-icon {
+    font-size: 3.6rem;
+    color: var(--main-color);
+    display: none;
+}
+
+#menu-icon {
+    display: block;
+    /* Show on mobile */
+    cursor: pointer;
+}
+
+.navbar {
+    position: absolute;
+    top: 100%;
+    left: -100%;
+    width: 100%;
+    background: #fff;
+    padding: 2rem;
+    transition: left 0.3s ease-in-out;
+}
+
+.navbar.active {
+    left: 0;
+}
+
+.navbar a {
+    display: block;
+    margin: 1rem 0;
+}
+
+
+@media (min-width: 768px) {
+    #menu-icon {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        position: static;
+        left: auto;
+        width: auto;
+    }
+
+    .navbar a {
+        display: inline;
+        margin: 0 4rem 0 0;
+    }
+}
+
+/* Seção Hero */
+.hero {
+    text-align: center;
+    padding: 80px 0;
+    background-image: url('imagem_de_bateria.jpg');
+    background-size: cover;
+    color: white;
+    position: relative;
+    /* Para posicionar o texto */
+}
+
+.hero h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Sombra no texto */
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.hero button {
+    background-color: #1abc9c;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.hero button:hover {
+    background-color: #16a085;
+}
+
+/* Seção de Recursos (Grid) */
+.features {
+
+    padding: 15% 20%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+
+}
+
+.feature {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+    font-size: 18px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.feature h3 {
+    color: #059212;
+    margin-bottom: 15px;
+}
+.form-group{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.form-group input{
+    position: relative;
+    height: 100%;
+    /* width: 100%; */
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+.form-group i{
+    position: relative;
+    top: 40%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    transition: all 0.2s ease;
+    left: 28px;
+    z-index: 1;
+}
+.form-group input:is(:focus, :valid)~i{
+    color: #059212;
+}
+
+
+@media (max-width: 767px) {
+    .navbar {
+        display: none;
+    }
+}
+
+.card {
+    width: 100%; 
+    height: 660px; 
+    border: 1px solid #ccc;
+    overflow: hidden; 
+}
+
+.card-container {
+    height: 100%;
+    overflow-y: auto; 
+}
+
+.card-item {
+    width: 100%;
+    height: 160px; 
+    margin: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.card-content p {
+    flex: 1; 
+    min-width: 120px;
+}
+    </style>
+</head>
+<body>
+    <div class="card-item">
+        <div class="card-content">
+            <p><strong>Cliente:</strong> {{ assistencia.cliente }}</p>
+            <p><strong>Contato:</strong> {{ assistencia.contato }}</p>
+            <p><strong>Bateria:</strong> {{ assistencia.bateria }}</p>
+            <p><strong>Numeração da Bateria:</strong> {{ assistencia.numeracao_bateria }}</p>
+            <p><strong>Responsável:</strong> {{ assistencia.responsavel }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
