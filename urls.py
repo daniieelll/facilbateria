@@ -9,8 +9,10 @@ from facil.views import base_view
 from facil.views import assistencia_view
 from facil.views import Emprestimos_view
 from facil.views import garantia_Seminova_view
+from facil.views import gerar_pdf
 from accounts.views import register_view
 from accounts.views import  login_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('garantia_seminovas/',garantia_Seminova_view,name='garantia_seminovas'),
     path ('', base_view, name='base'),
+    path('assistencia/<int:assistencia_id>/pdf/',gerar_pdf, name='gerar_pdf')
 ]
 
 
